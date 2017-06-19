@@ -1,0 +1,153 @@
+<head>
+  <title>Color Therapy ALPHA</title>
+</head>
+
+<body>
+  {{>background}}
+
+  <div class="container-fluid">
+    <button type="button" id="settings-toggle-btn" class="btn btn-default" data-toggle="modal" data-target="#options-modal">
+      <i class="glyphicon glyphicon-cog"></i> Options
+    </button>
+
+    <div class="modal fade" id="options-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Options</h4>
+          </div>
+          <div class="modal-body">
+            {{>options_form}}
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </div>
+</body>
+
+<template name="background">
+  <canvas id="background"></canvas>
+</template>
+
+<template name="options_form">
+  <form id="options-form">
+    <div class="form-group">
+      <label class="required" for="input-figure-shape">Figure shape</label>
+      <select required name="figure_shape" id="input-figure-shape" class="form-control">
+        <option value="square" {{ isActiveFigureShape 'square' }}>Square</option>
+        <option value="triangle" {{ isActiveFigureShape 'triangle' }}>Triangle</option>
+        <option value="circle" {{ isActiveFigureShape 'circle' }}>Circle</option>
+        <option value="polygon" {{ isActiveFigureShape 'polygon' }}>Polygon</option>
+        <option value="star" {{ isActiveFigureShape 'start' }}>Star</option>
+      </select>
+    </div>
+
+    <div class="form-group {{#if isActiveFigureShape 'polygon'}}{{else}}hidden{{/if}}">
+      <label class="required" for="input-polygon-sides">Polygon sides (#)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ polygon_sides }}" data-range-min="3" data-range-max="16" data-linked-element="#input-polygon-sides"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ polygon_sides }}" name="polygon_sides" required type="number" disabled id="input-polygon-sides">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group {{#if isActiveFigureShape 'star'}}{{else}}hidden{{/if}}">
+      <label class="required" for="input-star-points">Star points (#)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ star_points }}" data-range-min="4" data-range-max="16" data-linked-element="#input-star-points"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ star_points }}" name="star_points" required type="number" disabled id="input-star-points">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-figure-rotation">Figure rotation (°)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ figure_rotation }}" data-range-min="0" data-range-max="360" data-linked-element="#input-figure-rotation"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ figure_rotation }}" name="figure_rotation" required type="number" disabled id="input-figure-rotation">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-figure-color">Figure color</label>
+      <div class="input-group colorpicker input-append color" data-color="{{ figure_color }}" data-color-format="hex">
+        <div class="input-group-addon add-on">
+          <i style="width:1em;"></i>
+        </div>
+        <input value="{{ figure_color }}" name="figure_color" required type="text" class="form-control color-picker" id="input-figure-color" placeholder="Choose a color">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-figure-text">Figure text</label>
+      <input value="{{ figure_text }}" name="figure_text" required type="text" class="form-control" id="input-figure-text" placeholder="Enter some text">
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-figure-text-display-mode">Figure text display mode</label>
+      <select required name="figure_text_display_mode" id="input-figure-text-display-mode" class="form-control">
+        <option value="continuous" {{ isActiveFigureTextDisplayMode 'continuous'}}>Continuous</option>
+        <option value="subliminal" {{ isActiveFigureTextDisplayMode 'subliminal'}}>Subliminal</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-background-color">Background color</label>
+      <div class="input-group colorpicker input-append color" data-color="{{ background_color }}" data-color-format="hex">
+        <div class="input-group-addon add-on">
+          <i style="width:1em;"></i>
+        </div>
+        <input value="{{ background_color }}" name="background_color" required type="text" class="form-control color-picker" id="input-background-color" placeholder="Choose a color">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-animation-duration">Animation duration (ms)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ animation_duration }}" data-range-min="50" data-range-max="5000" data-linked-element="#input-animation-duration"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ animation_duration }}" name="animation_duration" required type="number" disabled id="input-animation-duration">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-animation-scale">Animation scale (%)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ animation_scale }}" data-range-min="50" data-range-max="500" data-linked-element="#input-animation-scale"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ animation_scale }}" name="animation_scale" required type="number" disabled id="input-animation-scale">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="input-animation-rotation">Animation rotation (°)</label>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="slider" data-start="{{ animation_rotation }}" data-range-min="-720" data-range-max="720" data-step="10" data-linked-element="#input-animation-rotation"></div>
+        </div>
+        <div class="col-xs-4">
+          <input value="{{ animation_rotation }}" name="animation_rotation" required type="number" disabled id="input-animation-rotation">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</template>

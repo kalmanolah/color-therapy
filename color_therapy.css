@@ -1,0 +1,31 @@
+#settings-toggle-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.colorpicker {
+    z-index: 9999;
+}
+
+.colorpicker-saturation {
+    background-image: url(/packages/natestrauser_bootstrap-colorpicker/lib/bootstrap-colorpicker/img/bootstrap-colorpicker/saturation.png) !important;
+}
+
+.colorpicker-hue {
+    background-image: url(/packages/natestrauser_bootstrap-colorpicker/lib/bootstrap-colorpicker/img/bootstrap-colorpicker/hue.png) !important;
+}
+
+.colorpicker-color {
+    background-image: url(/packages/natestrauser_bootstrap-colorpicker/lib/bootstrap-colorpicker/img/bootstrap-colorpicker/alpha.png) !important;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
